@@ -7,6 +7,7 @@ let current_number = 4;
 let max_number = 10000;
 let height = 3000;
 let width = 3000;
+let explored = [];
 
 window.setup = function() {
   createCanvas(height,width);
@@ -15,10 +16,17 @@ window.setup = function() {
 }
 
 window.draw = function() {
+    // current_number += 1;
     if(current_number > max_number){
         return 0;
     }
-  current_number += 1;
+    current_number +=1;
+
+    while(explored.indexOf(current_number) != -1){
+        // console.log(current_number, explored)
+        current_number +=1;
+    }
+    // current_number += 1;
   let list_to_display = [];
   let number = current_number;
 
@@ -28,6 +36,9 @@ window.draw = function() {
     //   list_out_of_range && 
         list_to_display.push(number);
       number = collatz(number);
+      if(explored.indexOf(number) == -1){
+          explored.push(number)
+      }
   }
 //   list_to_display.push(1);
   list_to_display.reverse();
@@ -38,11 +49,11 @@ window.draw = function() {
 
   list_to_display.map((d,p)=>{
     stroke(153);
-    theta -= (d%2==0?0.005:-0.005) /2
+    theta -= (d%2==0?0.005:-0.005) /1.5
     let x = current_x - 10*Math.sin(180*theta/Math.PI);
     let y = current_y - 10*Math.cos(180*theta/Math.PI);
     line(current_x,current_y,x,y);
-    textSize(5);
+    textSize(8);
     fill(0, 102, 153);
     // text(d, x, y);
     current_x = x;
